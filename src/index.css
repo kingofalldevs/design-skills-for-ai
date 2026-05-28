@@ -215,6 +215,7 @@ body.theme-light {
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
   overflow: hidden;
   position: relative;
+  height: 370px;
 }
 
 .element-card_part:hover {
@@ -226,7 +227,7 @@ body.theme-light {
 }
 
 .card-visual-body {
-  height: 320px;
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -240,7 +241,7 @@ body.theme-light .card-visual-body {
 }
 
 .card-code-body {
-  height: 320px;
+  flex: 1;
   overflow-y: auto;
   background-color: rgba(255, 255, 255, 0.02);
   padding: 20px;
@@ -248,6 +249,42 @@ body.theme-light .card-visual-body {
 
 body.theme-light .card-code-body {
   background-color: rgba(0, 0, 0, 0.02);
+}
+
+/* --- SKILL SPEC TAB HEADER & BUTTONS --- */
+.skill-tab-header {
+  display: flex;
+  gap: 10px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border-color);
+  background-color: rgba(255, 255, 255, 0.01);
+}
+
+body.theme-light .skill-tab-header {
+  background-color: rgba(0, 0, 0, 0.01);
+}
+
+.skill-tab-btn {
+  background: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 6px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  text-transform: lowercase;
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.skill-tab-btn:hover {
+  background-color: rgba(128, 128, 128, 0.15);
+}
+
+.skill-tab-btn.active {
+  background-color: var(--text-color);
+  color: var(--bg-color);
+  border-color: var(--text-color);
 }
 
 .card-code-body pre {
