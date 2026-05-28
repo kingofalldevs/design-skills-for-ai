@@ -31,8 +31,6 @@ export default function Hero({ activeCategory, setActiveCategory, user, onLogout
           </button>
         )}
 
-        <h1 className="element-heading">Design Skills for Agents</h1>
-        
         {/* Attached horizontal navigation track */}
         <div className="element-nav_track">
           {categories.map((cat) => (
