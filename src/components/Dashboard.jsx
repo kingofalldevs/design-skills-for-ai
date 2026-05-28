@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { db, collection, onSnapshot, query } from '../firebase';
+import { db, collection, onSnapshot, query, doc, deleteDoc } from '../firebase';
 import Navigation from './Navigation.jsx';
 import Hero from './Hero.jsx';
 import ProductCarousel from './ProductCarousel.jsx';
@@ -27,10 +27,21 @@ export default function Dashboard({ user, onLogout, navigate }) {
     const q = query(collection(db, 'skills'));
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const skills = [];
-      snapshot.forEach((doc) => {
-        const id = doc.id;
-        if (id !== 'landing-writings' && id !== 'landing-firecrawl') {
-          skills.push({ id, ...doc.data() });
+      snapshot.forEach((docSnap) => {
+        const id = docSnap.id;
+        const data = docSnap.data();
+        if (
+          id.toLowerCase().includes('deepseek') ||
+          id.toLowerCase().includes('kukumba') ||
+          (data.mdContent && data.mdContent.toLowerCase().includes('kukumba')) ||
+          (data.mdContent && data.mdContent.toLowerCase().includes('deepseek'))
+        ) {
+          console.log("Removing AI-created skill:", id);
+          deleteDoc(doc(collection(db, 'skills'), id)).catch(err => {
+            console.error("Failed to delete AI skill:", err);
+          });
+        } else if (id !== 'landing-writings' && id !== 'landing-firecrawl') {
+          skills.push({ id, ...data });
         }
       });
       setSkillsData(skills);

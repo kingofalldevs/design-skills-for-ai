@@ -78,7 +78,22 @@ function getMockSkills() {
     localStorage.setItem("mock_firestore_skills_v2", JSON.stringify([]));
     return [];
   }
-  return JSON.parse(local);
+  let skills = [];
+  try {
+    skills = JSON.parse(local);
+  } catch (e) {
+    skills = [];
+  }
+  const filtered = skills.filter(s => 
+    !s.id.toLowerCase().includes('deepseek') &&
+    !s.id.toLowerCase().includes('kukumba') &&
+    !(s.mdContent && s.mdContent.toLowerCase().includes('kukumba')) &&
+    !(s.mdContent && s.mdContent.toLowerCase().includes('deepseek'))
+  );
+  if (filtered.length !== skills.length) {
+    localStorage.setItem("mock_firestore_skills_v2", JSON.stringify(filtered));
+  }
+  return filtered;
 }
 
 let firestoreListeners = [];
