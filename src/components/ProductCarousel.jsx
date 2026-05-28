@@ -40,7 +40,7 @@ function CarouselItem({ skill }) {
             onClick={() => setActiveTab('prompt')} 
             className={`skill-tab-btn ${activeTab === 'prompt' ? 'active' : ''}`}
           >
-            prompt
+            skill
           </button>
           <button 
             onClick={() => setActiveTab('skill')} 
