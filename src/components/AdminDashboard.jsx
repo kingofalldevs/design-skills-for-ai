@@ -243,42 +243,74 @@ export default function AdminDashboard({ user, onLogout, navigate }) {
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', opacity: 0.5 }}>No skills published yet. Publish one on the left!</div>
             ) : (
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0', overflowY: 'auto', maxHeight: '550px' }}>
-                {skillsList.map((skill) => (
-                  <div key={skill.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(128, 128, 128, 0.15)', padding: '16px 0', background: 'transparent' }}>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <span style={{ fontWeight: 'var(--fw-regular)', fontFamily: 'var(--font-mono)', fontSize: '13px' }}>{skill.id}</span>
-                        <span style={{ fontSize: '10px', padding: '2px 6px', border: '1px solid var(--border-color)', borderRadius: '3px', opacity: 0.8 }}>{skill.category}</span>
+                {skillsList.map((skill) => {
+                  // Split content to retrieve Layer 2 (use case)
+                  const layer2Index = skill.mdContent ? skill.mdContent.search(/##\s*LAYER\s*2/i) : -1;
+                  const useCase = layer2Index !== -1 ? skill.mdContent.substring(layer2Index).trim() : '';
+                  const cleanUseCase = useCase 
+                    ? useCase.replace(/##\s*LAYER\s*2:[^\n]*/i, '').replace(/##\s*LAYER\s*2[^\n]*/i, '').trim() 
+                    : '';
+
+                  return (
+                    <div key={skill.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(128, 128, 128, 0.15)', padding: '16px 0', background: 'transparent', gap: '16px' }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', flex: 1.2, minWidth: 0 }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                          <span style={{ fontWeight: 'var(--fw-regular)', fontFamily: 'var(--font-mono)', fontSize: '13px', wordBreak: 'break-all' }}>{skill.id}</span>
+                          <span style={{ fontSize: '10px', padding: '2px 6px', border: '1px solid var(--border-color)', borderRadius: '3px', opacity: 0.8 }}>{skill.category}</span>
+                        </div>
+                        {skill.imageUrl && (
+                          <span style={{ fontSize: '11px', opacity: 0.5 }}>✓ Has preview image</span>
+                        )}
                       </div>
-                      {skill.imageUrl && (
-                        <span style={{ fontSize: '11px', opacity: 0.5 }}>✓ Has preview image</span>
-                      )}
-                    </div>
-                    <div style={{ display: 'flex', gap: '8px' }}>
-                      <button 
-                        onClick={() => {
-                          setSkillId(skill.id);
-                          setCategory(skill.category);
-                          setMdContent(skill.mdContent);
-                          setExistingImageUrl(skill.imageUrl || null);
-                          setEditingSkillId(skill.id);
-                          setStatus(`Editing skill "${skill.id}"`);
-                        }}
-                        className="cta-btn" 
-                        style={{ padding: '6px 12px', fontSize: '11px', border: '1px solid var(--border-color)' }}
+
+                      {/* Centered Use Case snippet */}
+                      <div 
+                        style={{ 
+                          flex: 1.5, 
+                          textAlign: 'center', 
+                          fontSize: '11px', 
+                          opacity: 0.6, 
+                          fontFamily: 'var(--font-mono)',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          display: '-webkit-box',
+                          WebkitLineClamp: 2,
+                          WebkitBoxOrient: 'vertical',
+                          lineHeight: '1.4',
+                          maxHeight: '38px',
+                          cursor: 'help'
+                        }} 
+                        title={cleanUseCase}
                       >
-                        edit
-                      </button>
-                      <button 
-                        onClick={() => handleDelete(skill.id)}
-                        className="cta-btn" 
-                        style={{ padding: '6px 12px', fontSize: '11px', borderColor: '#ff4d4d', color: '#ff4d4d' }}
-                      >
-                        delete
-                      </button>
+                        {cleanUseCase || 'no use case'}
+                      </div>
+
+                      <div style={{ display: 'flex', gap: '8px', flexShrink: 0 }}>
+                        <button 
+                          onClick={() => {
+                            setSkillId(skill.id);
+                            setCategory(skill.category);
+                            setMdContent(skill.mdContent);
+                            setExistingImageUrl(skill.imageUrl || null);
+                            setEditingSkillId(skill.id);
+                            setStatus(`Editing skill "${skill.id}"`);
+                          }}
+                          className="cta-btn" 
+                          style={{ padding: '6px 12px', fontSize: '11px', border: '1px solid var(--border-color)' }}
+                        >
+                          edit
+                        </button>
+                        <button 
+                          onClick={() => handleDelete(skill.id)}
+                          className="cta-btn" 
+                          style={{ padding: '6px 12px', fontSize: '11px', borderColor: '#ff4d4d', color: '#ff4d4d' }}
+                        >
+                          delete
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             )}
           </div>
