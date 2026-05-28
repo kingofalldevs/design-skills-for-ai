@@ -5,6 +5,9 @@ export default function Navigation({ activeCategory, setActiveCategory, user, on
     <nav className="element-container">
       {/* Navigation items (left) */}
       <div className="left-group">
+        <a href="/" className="element-indented logo-match" onClick={(e) => e.preventDefault()}>
+          indented
+        </a>
         <a 
           href="#docs" 
           className="element-nav_links"
@@ -26,11 +29,6 @@ export default function Navigation({ activeCategory, setActiveCategory, user, on
           Pricing
         </a>
       </div>
-
-      {/* Brand logo (center) */}
-      <a href="/" className="element-indented logo-match" onClick={(e) => e.preventDefault()}>
-        indented
-      </a>
 
       {/* Action CTAs (right) */}
       <div className="right-group">

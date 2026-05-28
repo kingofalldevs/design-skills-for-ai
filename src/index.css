@@ -95,9 +95,6 @@ body.theme-light {
 }
 
 .element-indented {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
   font-family: var(--font-mono);
   font-weight: var(--fw-regular); /* thin, elegant logo weight */
   font-size: 18px;
