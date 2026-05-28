@@ -16,6 +16,12 @@ export default function Hero({ activeCategory, setActiveCategory, user, onLogout
     <>
       <section className="element-hero_container" style={{ position: 'relative' }}>
         {user && (
+          <a href="/" className="dashboard-logo" onClick={(e) => e.preventDefault()}>
+            indented
+          </a>
+        )}
+
+        {user && (
           <button 
             className="user-profile-btn"
             onClick={() => setSidebarOpen(true)}
