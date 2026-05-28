@@ -16,6 +16,40 @@ export default function AdminDashboard({ user, onLogout, navigate }) {
   const [loadingSkills, setLoadingSkills] = useState(true);
   const [editingSkillId, setEditingSkillId] = useState(null);
   const [existingImageUrl, setExistingImageUrl] = useState(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
+
+  useEffect(() => {
+    if (!imageFile) {
+      setImagePreviewUrl(null);
+      return;
+    }
+    const objectUrl = URL.createObjectURL(imageFile);
+    setImagePreviewUrl(objectUrl);
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [imageFile]);
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = () => {
+    setIsDragging(false);
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    setIsDragging(false);
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      const file = e.dataTransfer.files[0];
+      if (file.type.startsWith('image/')) {
+        setImageFile(file);
+      } else {
+        setStatus('Error: Dropped file must be an image.');
+      }
+    }
+  };
 
   useEffect(() => {
     const body = document.body;
@@ -220,14 +254,69 @@ export default function AdminDashboard({ user, onLogout, navigate }) {
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                 <label style={{ fontFamily: 'var(--font-mono)', fontSize: '13px' }}>
-                  Image Preview (Optional) {existingImageUrl && <span style={{ opacity: 0.5 }}>(currently has image)</span>}
+                  Image Preview (Optional)
                 </label>
-                <input 
-                  type="file" 
-                  accept="image/*"
-                  onChange={(e) => setImageFile(e.target.files[0])} 
-                  style={{ fontFamily: 'var(--font-mono)' }}
-                />
+                
+                <div
+                  onDragOver={handleDragOver}
+                  onDragLeave={handleDragLeave}
+                  onDrop={handleDrop}
+                  onClick={() => document.getElementById('image-file-input').click()}
+                  style={{
+                    border: isDragging ? '1px dashed var(--text-color)' : '1px dashed var(--border-color)',
+                    background: isDragging ? 'rgba(0,0,0,0.03)' : 'transparent',
+                    padding: '24px',
+                    textAlign: 'center',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease',
+                    borderRadius: '4px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '12px',
+                    minHeight: '120px'
+                  }}
+                >
+                  <input 
+                    id="image-file-input"
+                    type="file" 
+                    accept="image/*"
+                    onChange={(e) => {
+                      if (e.target.files && e.target.files[0]) {
+                        setImageFile(e.target.files[0]);
+                      }
+                    }} 
+                    style={{ display: 'none' }}
+                  />
+                  
+                  {imagePreviewUrl ? (
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
+                      <img 
+                        src={imagePreviewUrl} 
+                        alt="Preview" 
+                        style={{ maxWidth: '120px', maxHeight: '80px', objectFit: 'contain', borderRadius: '2px', border: '1px solid var(--border-color)' }} 
+                      />
+                      <span style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', opacity: 0.8 }}>✓ {imageFile ? imageFile.name : ''}</span>
+                      <span style={{ fontSize: '9px', opacity: 0.5, textDecoration: 'underline' }}>Click or drop to replace</span>
+                    </div>
+                  ) : existingImageUrl ? (
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
+                      <img 
+                        src={existingImageUrl} 
+                        alt="Existing Preview" 
+                        style={{ maxWidth: '120px', maxHeight: '80px', objectFit: 'contain', borderRadius: '2px', border: '1px solid var(--border-color)' }} 
+                      />
+                      <span style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', opacity: 0.8 }}>Existing image loaded</span>
+                      <span style={{ fontSize: '9px', opacity: 0.5, textDecoration: 'underline' }}>Click or drop to replace</span>
+                    </div>
+                  ) : (
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
+                      <span style={{ fontSize: '12px', fontFamily: 'var(--font-mono)' }}>Drag & drop image here or click to browse</span>
+                      <span style={{ fontSize: '10px', opacity: 0.4 }}>Supports JPG, PNG, GIF, WEBP</span>
+                    </div>
+                  )}
+                </div>
               </div>
 
               <div style={{ display: 'flex', gap: '12px' }}>
