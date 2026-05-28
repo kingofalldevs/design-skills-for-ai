@@ -3,7 +3,6 @@ import { db, collection, onSnapshot, query } from '../firebase';
 import Navigation from './Navigation.jsx';
 import Hero from './Hero.jsx';
 import ProductCarousel from './ProductCarousel.jsx';
-import AIPromptBar from './AIPromptBar.jsx';
 
 export default function Dashboard({ user, onLogout, navigate }) {
   const [skillsData, setSkillsData] = useState([]);
@@ -74,9 +73,6 @@ export default function Dashboard({ user, onLogout, navigate }) {
           <ProductCarousel filteredSkills={filteredSkills} />
         )}
       </main>
-
-      {/* 4. AI PROMPT BAR */}
-      <AIPromptBar activeCategory={activeCategory} />
     </div>
   );
 }
