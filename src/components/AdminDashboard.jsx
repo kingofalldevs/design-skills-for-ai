@@ -5,7 +5,8 @@ import Navigation from './Navigation.jsx';
 export default function AdminDashboard({ user, onLogout, navigate }) {
   const [skillId, setSkillId] = useState('');
   const [category, setCategory] = useState('landing');
-  const [mdContent, setMdContent] = useState('');
+  const [promptContent, setPromptContent] = useState('');
+  const [useCaseContent, setUseCaseContent] = useState('');
   const [imageFile, setImageFile] = useState(null);
   const [status, setStatus] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -54,7 +55,8 @@ export default function AdminDashboard({ user, onLogout, navigate }) {
   const handleCancelEdit = () => {
     setSkillId('');
     setCategory('landing');
-    setMdContent('');
+    setPromptContent('');
+    setUseCaseContent('');
     setImageFile(null);
     setExistingImageUrl(null);
     setEditingSkillId(null);
@@ -82,8 +84,8 @@ export default function AdminDashboard({ user, onLogout, navigate }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!skillId || !category || !mdContent) {
-      setStatus('Error: Please fill in all text fields.');
+    if (!skillId || !category || !promptContent || !useCaseContent) {
+      setStatus('Error: Please fill in all text fields (Skill ID, Category, Prompt, and Use Case).');
       return;
     }
     if (!db || !storage) {
@@ -103,6 +105,19 @@ export default function AdminDashboard({ user, onLogout, navigate }) {
         imageUrl = await getDownloadURL(imageRef);
       }
 
+      // Automatically prepend standard Layer headers if not already present
+      let formattedPrompt = promptContent.trim();
+      if (!formattedPrompt.match(/^##\s*LAYER\s*1/i)) {
+        formattedPrompt = `## LAYER 1: THE PROMPT (The "What" – Structural Blueprint)\n${formattedPrompt}`;
+      }
+
+      let formattedUseCase = useCaseContent.trim();
+      if (!formattedUseCase.match(/^##\s*LAYER\s*2/i)) {
+        formattedUseCase = `## LAYER 2: THE SKILL (The "How" – Abstract Design Tokens)\n${formattedUseCase}`;
+      }
+
+      const combinedMd = `${formattedPrompt}\n\n${formattedUseCase}`;
+
       setStatus('Saving skill to Firestore...');
       const skillsCollection = collection(db, 'skills');
       const docRef = doc(skillsCollection, skillId);
@@ -110,7 +125,7 @@ export default function AdminDashboard({ user, onLogout, navigate }) {
       const dataToSave = {
         id: skillId,
         category,
-        mdContent,
+        mdContent: combinedMd,
         createdAt: new Date().toISOString()
       };
       
@@ -182,13 +197,24 @@ export default function AdminDashboard({ user, onLogout, navigate }) {
               </div>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                <label style={{ fontFamily: 'var(--font-mono)', fontSize: '13px' }}>Markdown Content (Tokens/Prompt)</label>
+                <label style={{ fontFamily: 'var(--font-mono)', fontSize: '13px' }}>Prompt (Layer 1)</label>
                 <textarea 
-                  value={mdContent} 
-                  onChange={(e) => setMdContent(e.target.value)} 
-                  rows="8"
+                  value={promptContent} 
+                  onChange={(e) => setPromptContent(e.target.value)} 
+                  rows="6"
                   style={{ padding: '10px', background: 'transparent', border: '1px solid var(--border-color)', color: 'var(--text-color)', fontFamily: 'var(--font-mono)' }}
-                  placeholder="## LAYER 1: THE PROMPT..."
+                  placeholder="The 'What' – Structural Blueprint. Describe the page layout rules..."
+                />
+              </div>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <label style={{ fontFamily: 'var(--font-mono)', fontSize: '13px' }}>Use Case (Layer 2)</label>
+                <textarea 
+                  value={useCaseContent} 
+                  onChange={(e) => setUseCaseContent(e.target.value)} 
+                  rows="6"
+                  style={{ padding: '10px', background: 'transparent', border: '1px solid var(--border-color)', color: 'var(--text-color)', fontFamily: 'var(--font-mono)' }}
+                  placeholder="The 'How' – Abstract Design Tokens. Describe the color styles and tokens..."
                 />
               </div>
 
@@ -290,7 +316,16 @@ export default function AdminDashboard({ user, onLogout, navigate }) {
                           onClick={() => {
                             setSkillId(skill.id);
                             setCategory(skill.category);
-                            setMdContent(skill.mdContent);
+                            
+                            const layer2Index = skill.mdContent ? skill.mdContent.search(/##\s*LAYER\s*2/i) : -1;
+                            if (layer2Index !== -1) {
+                              setPromptContent(skill.mdContent.substring(0, layer2Index).trim());
+                              setUseCaseContent(skill.mdContent.substring(layer2Index).trim());
+                            } else {
+                              setPromptContent(skill.mdContent || '');
+                              setUseCaseContent('');
+                            }
+                            
                             setExistingImageUrl(skill.imageUrl || null);
                             setEditingSkillId(skill.id);
                             setStatus(`Editing skill "${skill.id}"`);
