@@ -254,6 +254,7 @@ body.theme-light .card-code-body {
 /* --- SKILL SPEC TAB HEADER & BUTTONS --- */
 .skill-tab-header {
   display: flex;
+  justify-content: center;
   gap: 10px;
   padding: 16px 20px;
   border-bottom: 1px solid var(--border-color);
@@ -285,6 +286,7 @@ body.theme-light .skill-tab-header {
   background-color: var(--text-color);
   color: var(--bg-color);
   border-color: var(--text-color);
+  opacity: 0.8;
 }
 
 .card-code-body pre {
