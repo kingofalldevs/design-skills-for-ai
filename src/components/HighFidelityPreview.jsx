@@ -162,5 +162,65 @@ export default function HighFidelityPreview({ skill }) {
       </div>
     );
   }
+  if (skill.html) {
+    const isLight = document.body.classList.contains('theme-light');
+    const defaultColor = isLight ? '#000000' : '#ffffff';
+    const srcDoc = `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <style>
+            body {
+              margin: 0;
+              padding: 0;
+              background: transparent;
+              color: ${defaultColor};
+              font-family: 'Geist Mono', monospace;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              min-height: 100vh;
+              overflow: hidden;
+            }
+            ${skill.css || ''}
+          </style>
+          <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap">
+        </head>
+        <body>
+          ${skill.html}
+        </body>
+      </html>
+    `;
+    return (
+      <div className="preview-wrap" style={{ width: '100%', height: '100%' }}>
+        <iframe
+          srcDoc={srcDoc}
+          title={`${skill.id} Live Preview`}
+          style={{
+            width: '100%',
+            height: '100%',
+            border: 'none',
+            background: 'transparent',
+            display: 'block'
+          }}
+          sandbox="allow-scripts"
+        />
+      </div>
+    );
+  }
+
+  if (skill.imageUrl) {
+    return (
+      <div className="preview-wrap" style={{ width: '100%', height: '100%' }}>
+        <img 
+          src={skill.imageUrl} 
+          alt={`${skill.id} Preview`}
+          style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '4px', display: 'block' }} 
+        />
+      </div>
+    );
+  }
+
   return <div className="preview-wrap">Unknown Component</div>;
+
 }

@@ -7,10 +7,15 @@ import CTA from './CTA.jsx';
 import Footer from './Footer.jsx';
 import WhyCare from './WhyCare.jsx';
 import ThemeSwitcher from './ThemeSwitcher.jsx';
+import AuthForm from './AuthForm.jsx';
+import { auth, onAuthStateChanged, signOut } from '../firebase';
 
 export default function Landing() {
   const [activeCategory, setActiveCategory] = useState('landing');
   const [selectedTheme, setSelectedTheme] = useState('light');
+  const [user, setUser] = useState(null);
+  const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [loadingAuth, setLoadingAuth] = useState(true);
 
   useEffect(() => {
     const body = document.body;
@@ -20,6 +25,22 @@ export default function Landing() {
       body.classList.remove('theme-light');
     }
   }, [selectedTheme]);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      setLoadingAuth(false);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+    } catch (err) {
+      console.error("error logging out:", err);
+    }
+  };
 
   const filteredSkills = activeCategory === 'all' 
     ? SKILLS_DATA 
@@ -31,6 +52,9 @@ export default function Landing() {
       <Navigation 
         activeCategory={activeCategory} 
         setActiveCategory={setActiveCategory} 
+        user={user}
+        onAuthClick={() => setAuthModalOpen(true)}
+        onLogout={handleLogout}
       />
 
       {/* 2. HERO ZONE */}
@@ -45,13 +69,13 @@ export default function Landing() {
         <ProductCarousel filteredSkills={filteredSkills} />
         
         {/* 4. CALL TO ACTION */}
-        <CTA />
+        {!user && <CTA user={user} onAuthClick={() => setAuthModalOpen(true)} />}
         
         {/* why must you care */}
-        <WhyCare />
+        {!user && <WhyCare />}
         
         {/* 5. FOOTER */}
-        <Footer />
+        {!user && <Footer />}
       </main>
 
       {/* Global Theme Switcher */}
@@ -59,7 +83,13 @@ export default function Landing() {
         selectedTheme={selectedTheme} 
         setSelectedTheme={setSelectedTheme} 
       />
+
+      {/* Auth Modal Overlay */}
+      {authModalOpen && (
+        <AuthForm onClose={() => setAuthModalOpen(false)} />
+      )}
     </div>
   );
 }
+
 

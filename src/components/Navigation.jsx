@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Navigation({ activeCategory, setActiveCategory }) {
+export default function Navigation({ activeCategory, setActiveCategory, user, onAuthClick, onLogout, isAdminView, onAdminClick }) {
   return (
     <nav className="element-container">
       {/* Navigation items (left) */}
@@ -34,19 +34,56 @@ export default function Navigation({ activeCategory, setActiveCategory }) {
 
       {/* Action CTAs (right) */}
       <div className="right-group">
-        <a href="#login" className="element-nav_links" onClick={(e) => e.preventDefault()}>
-          Login
-        </a>
-        <a href="#companies" className="element-nav_links" onClick={(e) => e.preventDefault()}>
-          for companies
-        </a>
-        <button 
-          className="element-primary_action_btn"
-          onClick={() => alert("Initializing WebMCP connection... Target: client-side registry.")}
-        >
-          Get Started
-        </button>
+        {user ? (
+          <>
+            <span className="nav-user-email">{user.email}</span>
+            {onAdminClick && (
+              <button 
+                className="element-nav_links" 
+                onClick={(e) => {
+                  e.preventDefault();
+                  onAdminClick();
+                }}
+                style={{ marginLeft: '10px', textDecoration: 'underline' }}
+              >
+                {isAdminView ? 'Main Dashboard' : 'Admin Panel'}
+              </button>
+            )}
+            <button 
+              className="element-nav_links logout-btn" 
+              onClick={(e) => {
+                e.preventDefault();
+                onLogout();
+              }}
+            >
+              logout
+            </button>
+          </>
+        ) : (
+          <>
+            <a 
+              href="#login" 
+              className="element-nav_links" 
+              onClick={(e) => { 
+                e.preventDefault(); 
+                onAuthClick(); 
+              }}
+            >
+              Login
+            </a>
+            <a href="#companies" className="element-nav_links" onClick={(e) => e.preventDefault()}>
+              for companies
+            </a>
+            <button 
+              className="element-primary_action_btn"
+              onClick={onAuthClick}
+            >
+              Get Started
+            </button>
+          </>
+        )}
       </div>
     </nav>
   );
 }
+

@@ -1,16 +1,17 @@
 import React from 'react';
 
-export default function CTA() {
-  const handleSignIn = () => {
-    alert("Sign In clicked. Target: global user account session.");
-  };
-
+export default function CTA({ user, onAuthClick }) {
   return (
     <div className="cta-container">
       <h3 className="cta-text">Need more Designs?</h3>
-      <button className="cta-btn" onClick={handleSignIn}>
-        sign in
-      </button>
+      {user ? (
+        <span className="cta-status-text">you are logged in as {user.email}</span>
+      ) : (
+        <button className="cta-btn" onClick={onAuthClick}>
+          sign in
+        </button>
+      )}
     </div>
   );
 }
+
