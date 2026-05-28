@@ -1208,7 +1208,7 @@ body.theme-light .locked-dashboard-container {
 /* --- SIDEBAR & USER PROFILE CUSTOM BUTTON --- */
 .user-profile-btn {
   position: absolute;
-  left: 24px;
+  right: 24px;
   top: 50%;
   transform: translateY(-50%);
   background: transparent;
