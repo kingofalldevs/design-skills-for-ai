@@ -27,7 +27,7 @@ const AgentIcon = ({ agent }) => {
       onError={(e) => {
         // Fallback to a standard dot if image fails to load
         e.target.onerror = null;
-        e.target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2'%3E%3Crect x='3' y='3' width='18' height='18' rx='2'/%3E%3Cpath d='M9 17l3-3-3-3M15 15h2'/%3E%3C/svg%3E";
+        e.target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2'%3E%3Crect x='3' y='3' width='18' height='18' rx='2'/%3E%3Cpath d='M9 17l3-3-3-3M15 15h2'/%3E%3C/svg%3E";
       }}
     />
   );
