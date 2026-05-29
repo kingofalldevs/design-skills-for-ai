@@ -62,6 +62,7 @@ export default function Landing() {
       <Hero 
         activeCategory={activeCategory} 
         setActiveCategory={setActiveCategory} 
+        showCategories={false}
       />
 
       {/* Main Content Area */}

@@ -7,7 +7,7 @@ const UserIcon = () => (
   </svg>
 );
 
-export default function Hero({ activeCategory, setActiveCategory, user, onLogout, onAdminClick }) {
+export default function Hero({ activeCategory, setActiveCategory, user, onLogout, onAdminClick, showCategories = true }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const categories = ['all', 'landing', 'hero', 'nav', 'footer', 'pricing', 'faq'];
   const displayName = user ? (user.displayName || user.email.split('@')[0]) : '';
@@ -35,17 +35,19 @@ export default function Hero({ activeCategory, setActiveCategory, user, onLogout
         <p className="element-subheading">created by humans for you agent</p>
 
         {/* Attached horizontal navigation track */}
-        <div className="element-nav_track">
-          {categories.map((cat) => (
-            <button 
-              key={cat}
-              className={`element-nav_track_links ${activeCategory === cat ? 'active' : ''}`}
-              onClick={() => setActiveCategory(cat)}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
+        {showCategories && (
+          <div className="element-nav_track">
+            {categories.map((cat) => (
+              <button 
+                key={cat}
+                className={`element-nav_track_links ${activeCategory === cat ? 'active' : ''}`}
+                onClick={() => setActiveCategory(cat)}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+        )}
       </section>
 
       {/* Sidebar Overlay and Drawer */}
