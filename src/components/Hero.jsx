@@ -31,6 +31,9 @@ export default function Hero({ activeCategory, setActiveCategory, user, onLogout
           </button>
         )}
 
+        <h1 className="element-heading">Design Infrastructure for Agents</h1>
+        <p className="element-subheading">created by humans for you agent</p>
+
         {/* Attached horizontal navigation track */}
         <div className="element-nav_track">
           {categories.map((cat) => (

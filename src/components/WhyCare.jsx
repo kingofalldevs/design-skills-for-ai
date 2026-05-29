@@ -15,20 +15,43 @@ const FileIcon = () => (
 );
 
 function FolderTree() {
-  const files = ['skill.md', 'nav.md', 'hero.md', 'features.md', 'pricing.md', 'footer.md'];
   return (
-    <div className="folder-tree">
+    <div className="folder-tree" style={{ maxWidth: '340px' }}>
       <div className="folder-node">
         <FolderIcon />
-        <span>skill</span>
+        <span style={{ fontWeight: 'var(--fw-regular)' }}>.agent/skills/design-system</span>
       </div>
+      
+      {/* Level 1 list */}
       <div className="file-list">
-        {files.map(file => (
-          <div key={file} className="file-node">
-            <FileIcon />
-            <span>{file}</span>
-          </div>
-        ))}
+        <div className="file-node">
+          <FileIcon />
+          <span>SKILL.md</span>
+        </div>
+        <div className="file-node" style={{ fontWeight: 'var(--fw-regular)', opacity: 1 }}>
+          <FolderIcon />
+          <span>components</span>
+        </div>
+      </div>
+      
+      {/* Level 2 list (nested under components) */}
+      <div className="file-list" style={{ paddingLeft: '20px', marginLeft: '20px', marginTop: '-4px' }}>
+        <div className="file-node">
+          <FileIcon />
+          <span>nav.md</span>
+        </div>
+        <div className="file-node">
+          <FileIcon />
+          <span>nav.png</span>
+        </div>
+        <div className="file-node">
+          <FileIcon />
+          <span>hero.md</span>
+        </div>
+        <div className="file-node">
+          <FileIcon />
+          <span>hero.png</span>
+        </div>
       </div>
     </div>
   );
@@ -37,7 +60,7 @@ function FolderTree() {
 export default function WhyCare() {
   const cards = [
     {
-      title: "AI is Not the Problem",
+      title: "Sloppy code?",
       desc: "Artificial intelligence isn't inherently flawed; rather, we often fail to construct and convey our exact intent. When we give vague, abstract prompts without strict design rules, the AI is forced to make assumptions. By formalizing abstract design blueprints, we translate human creativity into clear, deterministic instructions that agents can execute flawlessly.",
       centered: true,
       extraSection: {
@@ -47,9 +70,13 @@ export default function WhyCare() {
     },
     {
       title: "What Indented Does for You",
-      desc: "While developers write code in abstract systems, Indented handles the core design of the micro-systems, layout parts, and interactive components that define the user experience. By organizing design blueprints into a structured skills folder—using specialized instructions in files like nav.md, pricing.md, footer.md, and cta.md—we translate visual guidelines into concrete design tokens. This enables agents to build beautifully stylized components without losing control over the styling blueprint.",
+      desc: "While developers write code in abstract systems, Indented handles the core design of the micro-systems, layout parts, and interactive components that define the user experience. By organizing design blueprints into a structured .agent/skills/design-system/ folder—using specialized instructions in SKILL.md and component files inside components/—we translate visual guidelines into concrete design tokens. This enables agents to build beautifully stylized components without losing control over the styling blueprint.",
       centered: true,
-      renderExtra: () => <FolderTree />
+      renderExtra: () => <FolderTree />,
+      extraSection: {
+        title: "Prompt Engineering",
+        desc: "Prompt engineering is not merely about typing creative phrases into a prompt box and expecting a magical response. True prompt engineering is the disciplined design of a predictable structural architecture—laying down concrete layout rules, strict boundary definitions, and formal design tokens. By constructing a deterministic blueprint, we guide AI agents to translate human visual intent into high-fidelity compilation and pixel-perfect results."
+      }
     }
   ];
 
@@ -57,36 +84,23 @@ export default function WhyCare() {
     <div className="why-care-container">
       <h3 className="why-care-header">Why Must You Care</h3>
       <div className="why-care-grid">
-        {/* Special first card: Divided into two halves (split-card) */}
-        <div className="why-care-card split-card">
-          <div className="split-left">
-            <h4 className="card-title">AI Generates Sloppy Code</h4>
-            <p className="card-desc">
-              Large language models frequently generate bloated, non-deterministic CSS and layouts with hidden style variables or floating pixels. Our system enforces a strict layer separation to guarantee clean visual compilation.
-            </p>
-          </div>
-          <div className="split-right">
-            <img src={sloppyCodeImg} alt="Sloppy Code Example" className="sloppy-code-img" />
-          </div>
-        </div>
-
         {/* Remaining cards */}
         {cards.map((card, index) => (
           <div key={index} className={`why-care-card ${card.centered ? 'centered-card' : ''} ${card.extraImage || card.renderExtra ? 'has-extra-image' : ''}`}>
             <h4 className="card-title">{card.title}</h4>
             <p className="card-desc">{card.desc}</p>
-            {card.extraSection && (
-              <>
-                <h4 className="card-title" style={{ marginTop: '28px' }}>{card.extraSection.title}</h4>
-                <p className="card-desc">{card.extraSection.desc}</p>
-              </>
-            )}
             {card.extraImage && (
               <div className="card-image-wrap">
                 <img src={card.extraImage} alt={card.title} className="card-extra-img" />
               </div>
             )}
             {card.renderExtra && card.renderExtra()}
+            {card.extraSection && (
+              <>
+                <h4 className="card-title" style={{ marginTop: '28px' }}>{card.extraSection.title}</h4>
+                <p className="card-desc">{card.extraSection.desc}</p>
+              </>
+            )}
           </div>
         ))}
       </div>

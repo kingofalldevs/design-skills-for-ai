@@ -1,7 +1,7 @@
 ## LAYER 1: THE PROMPT (The "What" – Structural Blueprint)
 Target Component: Features_Section
 Layout Rules:
-- Render a grid layout containing 4 feature cards representing the technical specifications of AI design skills.
+- Render a grid layout containing 4 feature cards representing the technical specifications of Design Infrastructure for Agents.
 - The outer container must be centered with a max-width limit of 1100px.
 - Heading text must read: "features_and_specifications".
 - Each card will display a monospace header and short descriptive text, formatted with an icon aligned at the top left.

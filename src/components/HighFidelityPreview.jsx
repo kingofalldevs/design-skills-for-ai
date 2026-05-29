@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import writingsScreenshot from '../writings_screenshot.png';
 import firecrawlScreenshot from '../firecrawl_screenshot.png';
+import daylightScreenshot from '../daylight_screenshot.png';
+import ceneeScreenshot from '../cenee_screenshot.jpg';
 
 export default function HighFidelityPreview({ skill }) {
   const [activeFaq, setActiveFaq] = useState(null);
@@ -14,9 +16,11 @@ export default function HighFidelityPreview({ skill }) {
           style={{ 
             width: '100%', 
             height: '100%', 
-            objectFit: 'cover', 
+            objectFit: 'contain', 
             borderRadius: '4px',
-            display: 'block'
+            display: 'block',
+            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)',
+            border: '1px solid rgba(0, 0, 0, 0.05)'
           }} 
         />
       </div>
@@ -31,9 +35,49 @@ export default function HighFidelityPreview({ skill }) {
           style={{ 
             width: '100%', 
             height: '100%', 
-            objectFit: 'cover', 
+            objectFit: 'contain', 
             borderRadius: '4px',
-            display: 'block'
+            display: 'block',
+            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.2)',
+            border: '1px solid rgba(255, 255, 255, 0.05)'
+          }} 
+        />
+      </div>
+    );
+  }
+  if (skill.id === 'landing-daylight') {
+    return (
+      <div className="preview-wrap" style={{ width: '100%', height: '100%' }}>
+        <img 
+          src={daylightScreenshot} 
+          alt="Daylight Landing Page Preview" 
+          style={{ 
+            width: '100%', 
+            height: '100%', 
+            objectFit: 'contain', 
+            borderRadius: '4px',
+            display: 'block',
+            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)',
+            border: '1px solid rgba(0, 0, 0, 0.05)'
+          }} 
+        />
+      </div>
+    );
+  }
+  if (skill.id === 'landing-cenee') {
+    return (
+      <div className="preview-wrap" style={{ width: '100%', height: '100%' }}>
+        <img 
+          src={ceneeScreenshot} 
+          alt="Cenee Landing Page Preview" 
+          style={{ 
+            width: '100%', 
+            height: '100%', 
+            objectFit: 'contain', 
+            borderRadius: '4px',
+            display: 'block',
+            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)',
+            border: '1px solid rgba(0, 0, 0, 0.05)'
           }} 
         />
       </div>
@@ -215,7 +259,14 @@ export default function HighFidelityPreview({ skill }) {
         <img 
           src={skill.imageUrl} 
           alt={`${skill.id} Preview`}
-          style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '4px', display: 'block' }} 
+          style={{ 
+            width: '100%', 
+            height: '100%', 
+            objectFit: 'contain', 
+            borderRadius: '4px', 
+            display: 'block',
+            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)'
+          }} 
         />
       </div>
     );

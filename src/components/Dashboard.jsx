@@ -40,7 +40,12 @@ export default function Dashboard({ user, onLogout, navigate }) {
           deleteDoc(doc(collection(db, 'skills'), id)).catch(err => {
             console.error("Failed to delete AI skill:", err);
           });
-        } else if (id !== 'landing-writings' && id !== 'landing-firecrawl') {
+        } else if (
+          id !== 'landing-writings' &&
+          id !== 'landing-firecrawl' &&
+          id !== 'landing-daylight' &&
+          id !== 'landing-cenee'
+        ) {
           skills.push({ id, ...data });
         }
       });

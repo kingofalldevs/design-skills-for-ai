@@ -1,7 +1,7 @@
 ## LAYER 1: THE PROMPT (The "What" – Structural Blueprint)
 Target Component: CTA_Section
 Layout Rules:
-- Render a centered layout container located directly beneath the design skills grid catalog.
+- Render a centered layout container located directly beneath the design infrastructure catalog.
 - Include a heading displaying the query text: "Need more Designs?".
 - Center an action button with the lowercase text "sign in" beneath the heading.
 - Apply a vertical height padding constraint (`padding: 60px 24px;`) to anchor the visual weight.

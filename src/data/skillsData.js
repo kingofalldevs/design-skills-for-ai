@@ -28,6 +28,34 @@ Execution Logic:
 - IF button_state == "hover": Apply property \`background-color: #ff0055\` AND \`color: #ffffff\``
   },
   {
+    id: 'landing-daylight',
+    category: 'landing',
+    mdContent: `## LAYER 1: THE PROMPT (The "What" - Structural Blueprint)
+Target Component: Daylight_Hero_Section
+Layout Rules:
+- Grid layout with logical text groupings overlaying cozy mid-century modern house background.
+- Incorporate bright orange highlight block.
+
+## LAYER 2: THE SKILL (The "How" - Abstract Design Tokens)
+Execution Logic:
+- IF element == "hero": Apply property \`background-image\` AND \`grid-layout\`
+- IF element == "highlight": Apply property \`background-color: #ff6f3c\``
+  },
+  {
+    id: 'landing-cenee',
+    category: 'landing',
+    mdContent: `## LAYER 1: THE PROMPT (The "What" - Structural Blueprint)
+Target Component: Cenee_Makeup_Hero
+Layout Rules:
+- Half-and-half layout: split textured burgundy packaging on left, portrait on right.
+- Distinct elegant serif typography overlay.
+
+## LAYER 2: THE SKILL (The "How" - Abstract Design Tokens)
+Execution Logic:
+- IF element == "split_container": Apply property \`display: grid\` AND \`grid-template-columns: 1fr 1fr\`
+- IF element == "brand_title": Apply property \`font-family: serif\` AND \`font-size: 8rem\``
+  },
+  {
     id: 'hero-monochrome',
     category: 'hero',
     mdContent: `## LAYER 1: THE PROMPT (The "What" - Structural Blueprint)
@@ -38,7 +66,7 @@ Layout Rules:
 ## LAYER 2: THE SKILL (The "How" - Abstract Design Tokens)
 Execution Logic:
 - IF element == "hero_container": Apply property \`background-color: #FFFFFF\` AND \`border-bottom: 1px solid #000000\`
-- IF element == "heading": Apply property \`font-family: "Geist Mono", monospace\` AND \`font-size: 24px\``
+- IF element == "heading": Apply property \`font-family: "Geist Mono", monospace\` AND \`font-size: 32px\``
   },
   {
     id: 'hero-neon',
@@ -59,7 +87,7 @@ Execution Logic:
 Target Component: App_Top_Navigation_Bar
 Layout Rules:
 - Render a 100% full-width horizontal container positioned fixed at the top of the viewport.
-- Set a strict container height boundary of 72px with a bottom border.
+- Set a strict container height boundary of 56px with a bottom border.
 
 ## LAYER 2: THE SKILL (The "How" - Abstract Design Tokens)
 Execution Logic:
@@ -73,13 +101,13 @@ Execution Logic:
 Target Component: Cyberpunk_Navigation_Bar
 Layout Rules:
 - Render a 100% full-width horizontal container positioned fixed at the top of the viewport.
-- Set container height boundary of 72px with a neon-pink bottom border.
+- Set container height boundary of 56px with a neon-pink bottom border.
 
 ## LAYER 2: THE SKILL (The "How" - Abstract Design Tokens)
 Execution Logic:
 - IF element == "container": Apply property \`background-color: #0c0817\` AND \`border-bottom: 2px solid #ff0055\`
 - IF element == "logo": Apply property \`font-family: "Geist Mono", monospace\` AND \`color: #00ffcc\` AND \`text-shadow: 0 0 8px rgba(0, 255, 204, 0.4)\`
-- IF element == "nav_links": Apply property \`color: #ff0055\` AND \`font-size: 14px\``
+- IF element == "nav_links": Apply property \`color: #ff0055\` AND \`font-size: 12px\``
   },
   {
     id: 'footer-stark',

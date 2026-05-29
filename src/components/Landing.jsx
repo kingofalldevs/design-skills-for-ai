@@ -6,6 +6,7 @@ import ProductCarousel from './ProductCarousel.jsx';
 import CTA from './CTA.jsx';
 import Footer from './Footer.jsx';
 import WhyCare from './WhyCare.jsx';
+import HowItWorks from './HowItWorks.jsx';
 import ThemeSwitcher from './ThemeSwitcher.jsx';
 import AuthForm from './AuthForm.jsx';
 import { auth, onAuthStateChanged, signOut } from '../firebase';
@@ -73,6 +74,9 @@ export default function Landing() {
         
         {/* why must you care */}
         {!user && <WhyCare />}
+        
+        {/* how it works */}
+        {!user && <HowItWorks onAuthClick={() => setAuthModalOpen(true)} />}
         
         {/* 5. FOOTER */}
         {!user && <Footer />}
