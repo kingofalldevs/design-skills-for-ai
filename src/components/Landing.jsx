@@ -9,6 +9,7 @@ import WhyCare from './WhyCare.jsx';
 import HowItWorks from './HowItWorks.jsx';
 import ThemeSwitcher from './ThemeSwitcher.jsx';
 import AuthForm from './AuthForm.jsx';
+import AgentTicker from './AgentTicker.jsx';
 import { auth, onAuthStateChanged, signOut } from '../firebase';
 
 export default function Landing() {
@@ -72,6 +73,9 @@ export default function Landing() {
         
         {/* 4. CALL TO ACTION */}
         {!user && <CTA user={user} onAuthClick={() => setAuthModalOpen(true)} />}
+        
+        {/* Horizontal Agent Ticker */}
+        {!user && <AgentTicker />}
         
         {/* why must you care */}
         {!user && <WhyCare />}

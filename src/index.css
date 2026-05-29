@@ -1949,3 +1949,121 @@ body.theme-light .footer-huge-logo {
   opacity: 0.06;
 }
 
+/* AGENT TICKER SEAMLESS MARQUEE */
+.agent-ticker-container {
+  width: 100%;
+  padding: 40px 0 20px 0;
+  background-color: var(--bg-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  transition: background-color 0.2s ease;
+}
+
+.agent-ticker-title {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: var(--fw-light);
+  color: var(--text-color);
+  opacity: 0.45;
+  text-transform: lowercase;
+  margin-bottom: 20px;
+  letter-spacing: 0.05em;
+}
+
+.agent-ticker-track-wrap {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+}
+
+/* Gradient fades at the edges for premium look */
+.agent-ticker-track-wrap::before,
+.agent-ticker-track-wrap::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 15%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.agent-ticker-track-wrap::before {
+  left: 0;
+  background: linear-gradient(to right, var(--bg-color), transparent);
+}
+
+.agent-ticker-track-wrap::after {
+  right: 0;
+  background: linear-gradient(to left, var(--bg-color), transparent);
+}
+
+.agent-ticker-track {
+  display: flex;
+  width: max-content;
+  animation: agentMarquee 25s linear infinite;
+}
+
+.agent-ticker-track:hover {
+  animation-play-state: paused;
+}
+
+.agent-ticker-list {
+  display: flex;
+  gap: 30px;
+  padding-right: 30px; /* matches the gap spacing */
+}
+
+.agent-ticker-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-color);
+  opacity: 0.85;
+  background-color: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 8px 16px;
+  border-radius: var(--btn-radius);
+  white-space: nowrap;
+  transition: background-color 0.15s ease, opacity 0.15s ease, border-color 0.15s ease;
+}
+
+body.theme-light .agent-ticker-item {
+  background-color: rgba(0, 0, 0, 0.01);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.agent-ticker-item:hover {
+  opacity: 1;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-color: var(--border-color);
+}
+
+body.theme-light .agent-ticker-item:hover {
+  background-color: rgba(0, 0, 0, 0.03);
+  border-color: var(--border-color);
+}
+
+.agent-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--text-color);
+  opacity: 0.5;
+  display: inline-block;
+}
+
+@keyframes agentMarquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
