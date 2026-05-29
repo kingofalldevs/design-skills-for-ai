@@ -59,15 +59,15 @@ export default function Landing() {
         onLogout={handleLogout}
       />
 
-      {/* 2. HERO ZONE */}
-      <Hero 
-        activeCategory={activeCategory} 
-        setActiveCategory={setActiveCategory} 
-        showCategories={false}
-      />
-
       {/* Main Content Area */}
       <main className="main-content">
+        {/* 2. HERO ZONE */}
+        <Hero 
+          activeCategory={activeCategory} 
+          setActiveCategory={setActiveCategory} 
+          showCategories={false}
+        />
+
         {/* 3. PRODUCT CAROUSEL */}
         <ProductCarousel filteredSkills={filteredSkills} />
         
