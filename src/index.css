@@ -1809,7 +1809,7 @@ body.theme-light .folder-tree {
   justify-content: center;
   text-align: left;
   padding: 80px 64px;
-  min-height: 480px;
+  min-height: 600px;
   background: var(--bg-color);
   border: none;
   border-top-left-radius: 72px;
@@ -1915,6 +1915,7 @@ body.theme-light .step-code-box {
     align-items: center;
     gap: 20px;
     padding: 24px;
+    min-height: auto;
   }
   .step-card-main {
     flex-direction: column;
