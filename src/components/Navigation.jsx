@@ -28,6 +28,16 @@ export default function Navigation({ activeCategory, setActiveCategory, user, on
         >
           Pricing
         </a>
+        <a 
+          href="#join" 
+          className="element-nav_links"
+          onClick={(e) => {
+            e.preventDefault();
+            alert("Join Us: Community and Agent registry program simulation initialized.");
+          }}
+        >
+          join us
+        </a>
       </div>
 
       {/* Action CTAs (right) */}
@@ -68,6 +78,9 @@ export default function Navigation({ activeCategory, setActiveCategory, user, on
               }}
             >
               Login
+            </a>
+            <a href="#freelancers" className="element-nav_links" onClick={(e) => e.preventDefault()}>
+              for freelancers
             </a>
             <a href="#companies" className="element-nav_links" onClick={(e) => e.preventDefault()}>
               for companies
