@@ -1,7 +1,7 @@
 import React from 'react';
 
 const agentDomains = {
-  "antigravity": "deepmind.google",
+  "antigravity": "antigravity.google",
   "devin": "cognition.ai",
   "copilot": "github.com",
   "cursor": "cursor.com",
