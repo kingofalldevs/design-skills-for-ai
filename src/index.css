@@ -11,6 +11,8 @@
   --fw-extra-light: 200;
   --fw-light: 300;
   --fw-regular: 400;
+  --fw-semibold: 600;
+  --fw-bold: 700;
 
   /* Button design tokens for Dark Mode */
   --btn-bg: #222222;
@@ -1779,57 +1781,86 @@ body.theme-light .folder-tree {
 
 /* How It Works Section Styling */
 .how-it-works-section {
-  padding: 80px 24px;
+  position: relative;
+  height: 240vh; /* scroll track height */
   width: 96%;
   max-width: 1360px;
   margin: 0 auto;
-  text-align: center;
   font-family: var(--font-mono);
 }
 
-.how-it-works-section .section-title {
+.how-it-works-sticky {
+  position: sticky;
+  top: 80px;
+  height: calc(100vh - 80px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  perspective: 1500px;
+}
+
+.how-it-works-sticky .section-title {
   font-size: 20px;
   font-weight: var(--fw-light);
   letter-spacing: -0.02em;
-  margin-bottom: 48px;
+  margin-bottom: 20px;
   text-transform: lowercase;
   color: var(--text-color);
 }
 
-.steps-container {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+.flip-card-container {
+  width: 100%;
+  max-width: 1240px;
+  height: min(640px, calc(100vh - 200px));
+  position: relative;
 }
 
-.step-card {
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.flip-card-front,
+.flip-card-back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 24px;
+  border: none;
+  padding: 64px 80px;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.flip-card-front {
+  background-color: var(--bg-color);
+  transform: rotateY(0deg);
+}
+
+.flip-card-back {
+  background-color: var(--bg-color);
+  transform: rotateY(180deg);
+  display: flex;
   align-items: center;
   justify-content: center;
-  text-align: left;
-  padding: 80px 64px;
-  min-height: 600px;
-  background: var(--bg-color);
-  border: none;
-  border-top-left-radius: 72px;
-  border-top-right-radius: 72px;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-  gap: 32px;
-  position: sticky;
-  top: 120px;
-  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.25);
-  transition: box-shadow 0.2s ease;
+  overflow: hidden;
 }
 
-body.theme-light .step-card {
-  background: var(--bg-color);
-  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.05);
-}
-
-.step-card:hover {
-  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.3), 0 0 12px rgba(var(--border-color), 0.03);
+/* Light mode overrides for cards */
+body.theme-light .flip-card-front,
+body.theme-light .flip-card-back {
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.06);
 }
 
 .step-card-main {
@@ -1837,8 +1868,76 @@ body.theme-light .step-card {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 40px;
+  gap: 48px;
   width: 100%;
+  text-align: left;
+}
+
+/* Card Back Face styling */
+.card-back-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.card-back-sub {
+  font-size: 14px;
+  font-weight: var(--fw-thin);
+  opacity: 0.4;
+  letter-spacing: 0.1em;
+  margin-bottom: 16px;
+}
+
+.card-back-logo {
+  font-size: 48px;
+  font-weight: var(--fw-extra-light);
+  letter-spacing: -0.05em;
+  color: var(--text-color);
+  margin-bottom: 24px;
+}
+
+.card-back-message {
+  font-size: 13px;
+  font-weight: var(--fw-light);
+  opacity: 0.7;
+  letter-spacing: 0.02em;
+  margin-bottom: 32px;
+  text-transform: lowercase;
+}
+
+/* Card Back Loader line */
+.card-back-loader {
+  width: 200px;
+  height: 1px;
+  background: rgba(128, 128, 128, 0.15);
+  position: relative;
+  overflow: hidden;
+  border-radius: 1px;
+}
+
+.loader-line {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 60px;
+  background: var(--text-color);
+  opacity: 0.6;
+  animation: compileScan 1.5s infinite linear;
+}
+
+@keyframes compileScan {
+  0% {
+    left: -60px;
+  }
+  100% {
+    left: 200px;
+  }
 }
 
 .step-card-cta {
@@ -1911,11 +2010,23 @@ body.theme-light .step-code-box {
 }
 
 @media (max-width: 768px) {
-  .step-card {
-    align-items: center;
-    gap: 20px;
-    padding: 24px;
-    min-height: auto;
+  .how-it-works-section {
+    height: 240vh;
+  }
+  .how-it-works-sticky {
+    top: 80px;
+    height: calc(100vh - 80px);
+  }
+  .flip-card-container {
+    height: auto;
+    min-height: 520px;
+    max-height: 90%;
+    width: 100%;
+  }
+  .flip-card-front,
+  .flip-card-back {
+    padding: 32px 24px;
+    border-radius: 16px;
   }
   .step-card-main {
     flex-direction: column;
@@ -1963,12 +2074,12 @@ body.theme-light .footer-huge-logo {
 
 .agent-ticker-title {
   font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: var(--fw-light);
+  font-size: 15px;
+  font-weight: var(--fw-bold);
   color: var(--text-color);
-  opacity: 0.45;
+  opacity: 0.8;
   text-transform: lowercase;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
   letter-spacing: 0.05em;
 }
 
@@ -2072,6 +2183,108 @@ body.theme-light .agent-ticker-item:hover {
   }
   100% {
     transform: translateX(-50%);
+  }
+}
+
+/* --- FAQ SECTION ACCORDION STYLING --- */
+.faq-section {
+  padding: 80px 24px;
+  width: 90%;
+  max-width: 800px;
+  margin: 0 auto;
+  font-family: var(--font-mono);
+}
+
+.faq-section .section-title {
+  font-size: 20px;
+  font-weight: var(--fw-light);
+  letter-spacing: -0.02em;
+  margin-bottom: 48px;
+  text-transform: lowercase;
+  color: var(--text-color);
+  text-align: center;
+}
+
+.faq-container {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--border-color);
+}
+
+.faq-item {
+  border-bottom: 1px solid rgba(128, 128, 128, 0.2);
+  padding: 24px 0;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.faq-item:hover {
+  border-bottom-color: var(--border-color);
+}
+
+.faq-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+}
+
+.faq-question {
+  font-size: 15px;
+  font-weight: var(--fw-regular);
+  color: var(--text-color);
+  transition: opacity 0.2s ease;
+  text-transform: lowercase;
+}
+
+.faq-item:hover .faq-question {
+  opacity: 0.9;
+}
+
+.faq-icon {
+  font-size: 18px;
+  font-weight: var(--fw-light);
+  opacity: 0.5;
+  transition: transform 0.25s ease, opacity 0.2s ease;
+  user-select: none;
+}
+
+.faq-item:hover .faq-icon {
+  opacity: 1;
+}
+
+/* Accordion open styles */
+.faq-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+  opacity: 0;
+}
+
+.faq-item.active .faq-body {
+  max-height: 200px;
+  opacity: 1;
+  margin-top: 16px;
+}
+
+.faq-answer {
+  font-size: 13px;
+  line-height: 1.6;
+  opacity: 0.65;
+  text-transform: lowercase;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .faq-section {
+    padding: 60px 16px;
+    width: 95%;
+  }
+  .faq-question {
+    font-size: 14px;
+  }
+  .faq-answer {
+    font-size: 12px;
   }
 }
 

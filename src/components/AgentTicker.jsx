@@ -49,7 +49,7 @@ export default function AgentTicker() {
 
   return (
     <div className="agent-ticker-container">
-      <div className="agent-ticker-title">supported coding agents</div>
+      <div className="agent-ticker-title">connect your agents in seconds</div>
       <div className="agent-ticker-track-wrap">
         <div className="agent-ticker-track">
           <div className="agent-ticker-list">

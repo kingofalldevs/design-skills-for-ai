@@ -7,6 +7,7 @@ import CTA from './CTA.jsx';
 import Footer from './Footer.jsx';
 import WhyCare from './WhyCare.jsx';
 import HowItWorks from './HowItWorks.jsx';
+import FAQ from './FAQ.jsx';
 import ThemeSwitcher from './ThemeSwitcher.jsx';
 import AuthForm from './AuthForm.jsx';
 import AgentTicker from './AgentTicker.jsx';
@@ -82,6 +83,9 @@ export default function Landing() {
         
         {/* how it works */}
         {!user && <HowItWorks onAuthClick={() => setAuthModalOpen(true)} />}
+        
+        {/* FAQ section */}
+        {!user && <FAQ />}
         
         {/* 5. FOOTER */}
         {!user && <Footer />}
