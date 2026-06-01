@@ -56,10 +56,6 @@ export default function Footer() {
       {/* 2. Bottom Section */}
       <div className="footer-bottom-row">
         <span className="copyright">© 2026 indented inc. all rights reserved.</span>
-        
-        <span className="footer-cli-hint">
-          npx indented.xyz pull [skill_id]
-        </span>
 
         <div className="status-group">
           <span className="version">v0.1.2</span>

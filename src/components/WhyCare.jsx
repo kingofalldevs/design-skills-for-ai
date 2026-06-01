@@ -1,82 +1,23 @@
 import React from 'react';
-import sloppyCodeImg from '../sloppy_code.png';
-
-const FolderIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '8px', flexShrink: 0 }}>
-    <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
-  </svg>
-);
-
-const FileIcon = () => (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '8px', opacity: 0.65, flexShrink: 0 }}>
-    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-    <polyline points="14 2 14 8 20 8" />
-  </svg>
-);
-
-function FolderTree() {
-  return (
-    <div className="folder-tree" style={{ maxWidth: '340px' }}>
-      <div className="folder-node">
-        <FolderIcon />
-        <span style={{ fontWeight: 'var(--fw-regular)' }}>.agent/skills/design-system</span>
-      </div>
-      
-      {/* Level 1 list */}
-      <div className="file-list">
-        <div className="file-node">
-          <FileIcon />
-          <span>SKILL.md</span>
-        </div>
-        <div className="file-node" style={{ fontWeight: 'var(--fw-regular)', opacity: 1 }}>
-          <FolderIcon />
-          <span>components</span>
-        </div>
-      </div>
-      
-      {/* Level 2 list (nested under components) */}
-      <div className="file-list" style={{ paddingLeft: '20px', marginLeft: '20px', marginTop: '-4px' }}>
-        <div className="file-node">
-          <FileIcon />
-          <span>nav.md</span>
-        </div>
-        <div className="file-node">
-          <FileIcon />
-          <span>nav.png</span>
-        </div>
-        <div className="file-node">
-          <FileIcon />
-          <span>hero.md</span>
-        </div>
-        <div className="file-node">
-          <FileIcon />
-          <span>hero.png</span>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export default function WhyCare() {
   const cards = [
     {
-      title: "Sloppy code?",
-      desc: "Artificial intelligence isn't inherently flawed; rather, we often fail to construct and convey our exact intent. When we give vague, abstract prompts without strict design rules, the AI is forced to make assumptions. By formalizing abstract design blueprints, we translate human creativity into clear, deterministic instructions that agents can execute flawlessly.",
-      centered: true,
-      extraSection: {
-        title: "What AI Needs",
-        desc: "To produce truly premium results, an AI must be equipped with precise structural and design boundaries. Without a deterministic blueprint defining how every component is constructed, models inevitably fall back on statistical averages—resulting in generic, uninspired design slop. Providing clear design intent gives AI the constraints it needs to achieve perfection."
-      }
+      number: "1",
+      title: "choose a design of your choice",
+      desc: "Browse our catalog of premium, production-ready interface templates. Every design is meticulously handcrafted by human UI/UX experts to ensure maximum visual impact, clean typography, and seamless structure.",
+      isSplitLayout: true
     },
     {
-      title: "What Indented Does for You",
-      desc: "While developers write code in abstract systems, Indented handles the core design of the micro-systems, layout parts, and interactive components that define the user experience. By organizing design blueprints into a structured .agent/skills/design-system/ folder—using specialized instructions in SKILL.md and component files inside components/—we translate visual guidelines into concrete design tokens. This enables agents to build beautifully stylized components without losing control over the styling blueprint.",
-      centered: true,
-      renderExtra: () => <FolderTree />,
-      extraSection: {
-        title: "Prompt Engineering",
-        desc: "Prompt engineering is not merely about typing creative phrases into a prompt box and expecting a magical response. True prompt engineering is the disciplined design of a predictable structural architecture—laying down concrete layout rules, strict boundary definitions, and formal design tokens. By constructing a deterministic blueprint, we guide AI agents to translate human visual intent into high-fidelity compilation and pixel-perfect results."
-      }
+      number: "2",
+      title: "license the design",
+      desc: "Secure your design with an exclusive, limited license that guarantees uniqueness. We strictly cap the number of active licenses for every single template, preventing the design from ever becoming saturated or over-used.",
+      isSplitLayoutRight: true
+    },
+    {
+      number: "3",
+      title: <>describe your brand details to our ai agent (Lucy)<br />and she will customize it to your need</>,
+      desc: "Bring your interface to life instantly. Instruct Lucy to tweak layout elements, adjust styling tokens, or add new components using simple, natural language chat instructions.",
+      isSplitLayout: true
     }
   ];
 
@@ -84,25 +25,54 @@ export default function WhyCare() {
     <div className="why-care-container">
       <h3 className="why-care-header">Why Must You Care</h3>
       <div className="why-care-grid">
-        {/* Remaining cards */}
-        {cards.map((card, index) => (
-          <div key={index} className={`why-care-card ${card.centered ? 'centered-card' : ''} ${card.extraImage || card.renderExtra ? 'has-extra-image' : ''}`}>
-            <h4 className="card-title">{card.title}</h4>
-            <p className="card-desc">{card.desc}</p>
-            {card.extraImage && (
-              <div className="card-image-wrap">
-                <img src={card.extraImage} alt={card.title} className="card-extra-img" />
+        <div className="how-it-works">
+          {cards.map((card, index) => {
+            if (card.isSplitLayout) {
+              return (
+                <div key={index} className="why-care-card split-layout-card">
+                  <div className="card-number-col">
+                    {card.number}
+                  </div>
+                  <div className="card-content-col">
+                    <h4 className="card-title">{card.title}</h4>
+                    <p className="card-desc">{card.desc}</p>
+                  </div>
+                </div>
+              );
+            }
+            if (card.isSplitLayoutRight) {
+              return (
+                <div key={index} className="why-care-card split-layout-card-right">
+                  <div className="card-content-col">
+                    <h4 className="card-title">{card.title}</h4>
+                    <p className="card-desc">{card.desc}</p>
+                  </div>
+                  <div className="card-number-col">
+                    {card.number}
+                  </div>
+                </div>
+              );
+            }
+            return (
+              <div key={index} className={`why-care-card ${card.centered ? 'centered-card' : ''} ${card.extraImage || card.renderExtra ? 'has-extra-image' : ''}`}>
+                <h4 className="card-title">{card.title}</h4>
+                <p className="card-desc">{card.desc}</p>
+                {card.extraImage && (
+                  <div className="card-image-wrap">
+                    <img src={card.extraImage} alt={card.title} className="card-extra-img" />
+                  </div>
+                )}
+                {card.renderExtra && card.renderExtra()}
+                {card.extraSection && (
+                  <>
+                    <h4 className="card-title" style={{ marginTop: '28px' }}>{card.extraSection.title}</h4>
+                    <p className="card-desc">{card.extraSection.desc}</p>
+                  </>
+                )}
               </div>
-            )}
-            {card.renderExtra && card.renderExtra()}
-            {card.extraSection && (
-              <>
-                <h4 className="card-title" style={{ marginTop: '28px' }}>{card.extraSection.title}</h4>
-                <p className="card-desc">{card.extraSection.desc}</p>
-              </>
-            )}
-          </div>
-        ))}
+            );
+          })}
+        </div>
       </div>
     </div>
   );

@@ -1,4 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import ceneeScreenshot from '../cenee_screenshot.jpg';
+import daylightScreenshot from '../daylight_screenshot.png';
+import chiselScreenshot from '../chisel_screenshot.png';
+import samuelSniderScreenshot from '../samuel_snider_screenshot.png';
+import sunriseScreenshot from '../sunrise_screenshot.png';
+import floraScreenshot from '../flora_screenshot.png';
 
 const UserIcon = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -11,6 +17,33 @@ export default function Hero({ activeCategory, setActiveCategory, user, onLogout
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const categories = ['all', 'landing', 'hero', 'nav', 'footer', 'pricing', 'faq'];
   const displayName = user ? (user.displayName || user.email.split('@')[0]) : '';
+
+  const phrases = ["for your business", "for your agency", "for your company", "for yourself"];
+  const [text, setText] = useState('');
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [loopNum, setLoopNum] = useState(0);
+  const [typingSpeed, setTypingSpeed] = useState(100);
+
+  useEffect(() => {
+    let timer = setTimeout(() => {
+      const i = loopNum % phrases.length;
+      const fullText = phrases[i];
+
+      setText(isDeleting ? fullText.substring(0, text.length - 1) : fullText.substring(0, text.length + 1));
+
+      setTypingSpeed(isDeleting ? 40 : 100);
+
+      if (!isDeleting && text === fullText) {
+        setTypingSpeed(2000);
+        setIsDeleting(true);
+      } else if (isDeleting && text === '') {
+        setIsDeleting(false);
+        setLoopNum(loopNum + 1);
+        setTypingSpeed(500);
+      }
+    }, typingSpeed);
+    return () => clearTimeout(timer);
+  }, [text, isDeleting, loopNum, typingSpeed]);
 
   return (
     <>
@@ -31,8 +64,49 @@ export default function Hero({ activeCategory, setActiveCategory, user, onLogout
           </button>
         )}
 
-        <h1 className="element-heading">Design Infrastructure for Agents</h1>
+        <h1 className="element-heading">Create a stunning website {text}<span style={{ opacity: text.length === phrases[loopNum % phrases.length].length && !isDeleting ? 1 : 0.5 }}>|</span></h1>
         <p className="element-subheading">created by humans for you agent</p>
+
+        <div className="hero-prompt-box">
+          <input 
+            type="text" 
+            className="hero-prompt-input" 
+            placeholder="describe the interface you want to build..." 
+          />
+          <button className="hero-prompt-btn">
+            build
+          </button>
+        </div>
+
+        {/* Block 1: Cenee & Daylight */}
+        <div className="hero-images-block">
+          <div className="hero-image-card">
+            <img src={ceneeScreenshot} alt="Cenee Landing Page" />
+          </div>
+          <div className="hero-image-card">
+            <img src={daylightScreenshot} alt="Daylight Landing Page" />
+          </div>
+        </div>
+
+        {/* Block 2: Flora & Chisel */}
+        <div className="hero-images-block">
+          <div className="hero-image-card">
+            <img src={floraScreenshot} alt="Flora Website" />
+          </div>
+          <div className="hero-image-card">
+            <img src={chiselScreenshot} alt="Chisel Website" />
+          </div>
+        </div>
+
+        {/* Block 3: Samuel Snider & Sunrise */}
+        <div className="hero-images-block">
+          <div className="hero-image-card">
+            <img src={samuelSniderScreenshot} alt="Samuel Snider Website" />
+          </div>
+          <div className="hero-image-card">
+            <img src={sunriseScreenshot} alt="Sunrise Website" />
+          </div>
+        </div>
 
         {/* Attached horizontal navigation track */}
         {showCategories && (
